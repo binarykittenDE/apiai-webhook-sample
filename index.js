@@ -7,6 +7,9 @@ const bodyParser = require('body-parser');
 const restService = express();
 restService.use(bodyParser.json());
 
+/*
+* Handling incoming messages at /hook
+*/
 restService.post('/hook', function (req, res) {
 
     console.log('hook request');
@@ -33,10 +36,11 @@ restService.post('/hook', function (req, res) {
 
         console.log('result: ', speech);
 
+        /* Returned value */
         return res.json({
-            speech: speech,
-            displayText: speech,
-            source: 'apiai-webhook-sample'
+            speech: 'Awesome! It worked!',
+            displayText: 'Awesome! It worked!',
+            source: 'babsi-webhook'
         });
     } catch (err) {
         console.error("Can't process request", err);
