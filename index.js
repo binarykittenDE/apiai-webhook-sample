@@ -44,7 +44,7 @@ var chocolateBrownies = {
 /* States */
 var currentStep = 0;
 var addGoodByeFollowUp = false;
-var addActionIncompleteFalse = false;
+var addExpectUserResponseFalse = false;
 
 function getCurrentStep() {
     return chocolateBrownies.steps[currentStep];
@@ -83,12 +83,12 @@ function resetData() {
 /**
  * Handling incoming messages at /hook +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  */
-restService.post('/hook', function (req, res) {
+restService.post('/hook', function (request, result) {
     try {
         var speech = 'empty speech';
 
-        if (req.body) {
-            var requestBody = req.body;
+        if (request.body) {
+            var requestBody = request.body;
 
             if (requestBody.result) {
                 speech = '';
@@ -110,7 +110,7 @@ restService.post('/hook', function (req, res) {
                             break;
                         case 'notRepeatIngredients':
                             speech += 'Awesome. So let us start. ' + getCurrentStep();
-                            addActionIncompleteFalse = true;
+                            addExpectUserResponseFalse = true;
                             // under fulfillment include
                             // data: {
                             //     google: {
@@ -148,21 +148,23 @@ restService.post('/hook', function (req, res) {
          */
         // Invoke Goodbye
         if (addGoodByeFollowUp) {
-            return res.json({
+            return result.json({
                 followupEvent: {name: 'goodBye'},
                 source: 'babsi-webhook'
             });
         }
-        if(addActionIncompleteFalse){
-            return res.json({
+        if (addExpectUserResponseFalse) {
+            return result.json({
                 speech: speech,
                 displayText: speech,
-                actionIncomplete: false,
+                data: {
+                    expect_user_response: false
+                },
                 source: 'babsi-webhook'
             });
         }
         else {
-            return res.json({
+            return result.json({
                 speech: speech,
                 displayText: speech,
                 source: 'babsi-webhook'
@@ -171,7 +173,7 @@ restService.post('/hook', function (req, res) {
     } catch (err) {
         console.error("Can't process request", err);
 
-        return res.status(400).json({
+        return result.status(400).json({
             status: {
                 code: 400,
                 errorType: err.message
