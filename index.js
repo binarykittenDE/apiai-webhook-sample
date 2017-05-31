@@ -61,9 +61,9 @@ function getLastStep() {
     }
 }
 function getIngredientsAsString() {
-    var ingredientString = '';
+    var ingredientString = '\n';
     currentRecipe.ingredients.forEach(function (ingredient) {
-        ingredientString += ingredient.amount + ' ' + ingredient.name + ', ';
+        ingredientString += ingredient.amount + ' ' + ingredient.name + '\n';
     });
     return ingredientString;
 }
