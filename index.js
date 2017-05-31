@@ -93,8 +93,8 @@ restService.post('/hook', function (req, res) {
          * example: {"followupEvent":{"name":"<event_name>","data":{"<parameter_name>":"<parameter_value>"}}}
          */
         return res.json({
-            speech: chocolateBrownies.steps[2],
-            displayText: chocolateBrownies.steps[2],
+            speech: chocolateBrownies.steps,
+            displayText: chocolateBrownies.steps,
             source: 'babsi-webhook'
         });
     } catch (err) {
