@@ -44,10 +44,7 @@ var chocolateBrownies = {
 /* States */
 var currentStep = 0;
 var addGoodByeFollowUp = false;
-var addCurrentStepFollowUp = false;
-var addLastStepFollowUp = false;
-var addNextStepFollowUp = false;
-var addGetIngredientsFollowUp = false;
+var addActionIncompleteFalse = false;
 
 function getCurrentStep() {
     return chocolateBrownies.steps[currentStep];
@@ -82,10 +79,6 @@ function getIngredientsAsString() {
 function resetData() {
     currentStep = 0;
     addGoodByeFollowUp = false;
-    addCurrentStepFollowUp = false;
-    addLastStepFollowUp = false;
-    addNextStepFollowUp = false;
-    addGetIngredientsFollowUp = false;
 }
 /**
  * Handling incoming messages at /hook +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -117,6 +110,13 @@ restService.post('/hook', function (req, res) {
                             break;
                         case 'notRepeatIngredients':
                             speech += 'Awesome. So let us start. ' + getCurrentStep();
+                            addActionIncompleteFalse = true;
+                            // under fulfillment include
+                            // data: {
+                            //     google: {
+                            //         expect_user_response: false,
+                            //     }
+                            // }
                             break;
                         case 'nextStep':
                             speech = getNextStep();
@@ -153,35 +153,11 @@ restService.post('/hook', function (req, res) {
                 source: 'babsi-webhook'
             });
         }
-        //Invoke Current step
-        else if (addCurrentStepFollowUp) {
-            addCurrentStepFollowUp = false;
+        if(addActionIncompleteFalse){
             return res.json({
-                followupEvent: {name: 'currentStep'},
-                source: 'babsi-webhook'
-            });
-        }
-        //Invoke Next Step
-        else if (addNextStepFollowUp) {
-            addNextStepFollowUp = false;
-            return res.json({
-                followupEvent: {name: 'nextStep'},
-                source: 'babsi-webhook'
-            });
-        }
-        //Invoke Last Step
-        else if (addLastStepFollowUp) {
-            addLastStepFollowUp = false;
-            return res.json({
-                followupEvent: {name: 'lastStep'},
-                source: 'babsi-webhook'
-            });
-        }
-        //Invoke Get Ingredients
-        else if (addGetIngredientsFollowUp) {
-            addGetIngredientsFollowUp = false;
-            return res.json({
-                followupEvent: {name: 'getIngredients'},
+                speech: speech,
+                displayText: speech,
+                actionIncomplete: false,
                 source: 'babsi-webhook'
             });
         }
