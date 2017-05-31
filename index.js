@@ -41,7 +41,6 @@ var chocolateBrownies = {
     timerTime: 20
 };
 /* States */
-var currentRecipe = {};
 var currentStep = 0;
 function getNextStep() {
     var nextStep = currentStep++;
@@ -62,7 +61,7 @@ function getLastStep() {
 }
 function getIngredientsAsString() {
     var ingredientString = '\n';
-    currentRecipe.ingredients.forEach(function (ingredient) {
+    chocolateBrownies.ingredients.forEach(function (ingredient) {
         ingredientString += ingredient.amount + ' ' + ingredient.name + '\n';
     });
     return ingredientString;
@@ -88,7 +87,6 @@ restService.post('/hook', function (req, res) {
                 if (requestBody.result.action) {
                     switch (requestBody.result.action) {
                         case 'chooseRecipe':
-                            currentRecipe = chocolateBrownies;
                             speech += getIngredientsAsString();
                             speech += '. Should I repeat it?';
                             break;
@@ -105,7 +103,7 @@ restService.post('/hook', function (req, res) {
                             speech = getCurrentStep();
                             break;
                         case 'firstStep':
-                            speech += currentRecipe.steps[0];
+                            speech += chocolateBrownies.steps[0];
                             break;
                     }
                 }
