@@ -73,11 +73,13 @@ restService.post('/hook', function (req, res) {
                 if (requestBody.result.fulfillment) {
                     speech += requestBody.result.fulfillment.speech;
                     speech += ' ';
+                    speech += chocolateBrownies.name;
                 }
 
                 //If an action was invoked in api.ai
                 if (requestBody.result.action) {
                     speech += 'action: ' + requestBody.result.action;
+                    speech += ' ' + chocolateBrownies.name;
                 }
             }
         }
@@ -93,8 +95,8 @@ restService.post('/hook', function (req, res) {
          * example: {"followupEvent":{"name":"<event_name>","data":{"<parameter_name>":"<parameter_value>"}}}
          */
         return res.json({
-            speech: chocolateBrownies.steps,
-            displayText: chocolateBrownies.steps,
+            speech: speech,
+            displayText: speech,
             source: 'babsi-webhook'
         });
     } catch (err) {
