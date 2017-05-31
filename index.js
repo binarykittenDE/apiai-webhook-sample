@@ -21,16 +21,17 @@ var veganMilk = {name: 'vegan milk', amount: '230 milliliter'};
 var walnuts = {name: 'walnuts', amount: '200 gram'};
 var ingredients = [oil, chocolate, flour, cocoaPowder, sugar, seaSalt, vanillaPod, veganMilk, walnuts];
 
-var step1 = 'So first preheat the oven to 180 degrees and cover an oven tray with baking paper.';
-var step2 = 'The next step would be to heat up 150 gram of chocolate until its completely melted. You can do this' +
+var step1 = '[0] So first preheat the oven to 180 degrees and cover an oven tray with baking paper.';
+var step2 = '[1] The next step would be to heat up 150 gram of chocolate until its completely melted. You can do this' +
     ' with an microwave or a waterbath.';
-var step3 = 'Sieve the 170 gram flour and 5 teaspoons cocoa powder into a large bowl.';
-var step4 = 'Add the 180 gram of sugar and a pinch of the sea salt.';
-var step5 = 'Halve the vanilla pod lengthways, scrape out the seeds and add them to the bowl.';
-var step6 = 'Stir in the 5 tablespoons oil, the 230 milliliters vegan milk and the melted chocolate until everything' +
+var step3 = '[2] Sieve the 170 gram flour and 5 teaspoons cocoa powder into a large bowl.';
+var step4 = '[3] Add the 180 gram of sugar and a pinch of the sea salt.';
+var step5 = '[4] Halve the vanilla pod lengthways, scrape out the seeds and add them to the bowl.';
+var step6 = '[5] Stir in the 5 tablespoons oil, the 230 milliliters vegan milk and the melted chocolate until' +
+    ' everything' +
     ' is combined nicely.';
-var step7 = 'Roughly chop the remaining 50 gram of chocolate and 150 gram of walnuts, and stir it in!';
-var step8 = 'Wow, we nearly finished! Pour the mixture into the prepared oven tray and spread it out evenly.' +
+var step7 = '[6] Roughly chop the remaining 50 gram of chocolate and 150 gram of walnuts, and stir it in!';
+var step8 = '[7] Wow, we nearly finished! Pour the mixture into the prepared oven tray and spread it out evenly.' +
     ' Sprinkle over the remaining walnuts and place this beauty in the hot oven! I´ll remind you in 20 minutes.';
 var steps = [step1, step2, step3, step4, step5, step6, step7, step8];
 /* Recipe */
@@ -51,7 +52,7 @@ function getNextStep() {
     var nextStep = currentStep + 1;
     if (nextStep < chocolateBrownies.steps.length) {
         currentStep = nextStep;
-        return chocolateBrownies.steps[nextStep]
+        return chocolateBrownies.steps[nextStep] + ' [currentStep now:' + currentStep + ']';
     }
     return 'No! That´s it. Finished.';
 }
@@ -60,7 +61,7 @@ function getLastStep() {
     var lastStep = currentStep - 1;
     if (lastStep >= 0) {
         currentStep = lastStep;
-        return chocolateBrownies.steps[lastStep]
+        return chocolateBrownies.steps[lastStep] + ' [currentStep now:' + currentStep + ']';
     }
     return 'You´re already at the first step.'
 }
