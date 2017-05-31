@@ -60,9 +60,9 @@ function getLastStep() {
     }
 }
 function getIngredientsAsString() {
-    var ingredientString = '\n';
+    var ingredientString = '';
     chocolateBrownies.ingredients.forEach(function (ingredient) {
-        ingredientString += ingredient.amount + ' ' + ingredient.name + '\n';
+        ingredientString += ingredient.amount + ' ' + ingredient.name + ', ';
     });
     return ingredientString;
 }
