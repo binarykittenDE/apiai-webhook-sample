@@ -44,6 +44,10 @@ var chocolateBrownies = {
 /* States */
 var currentStep = 0;
 var addGoodByeFollowUp = false;
+var addCurrentStepFollowUp = false;
+var addLastStepFollowUp = false;
+var addNextStepFollowUp = false;
+var addGetIngredientsFollowUp = false;
 
 function getCurrentStep() {
     return chocolateBrownies.steps[currentStep];
@@ -78,6 +82,10 @@ function getIngredientsAsString() {
 function resetData() {
     currentStep = 0;
     addGoodByeFollowUp = false;
+    addCurrentStepFollowUp = false;
+    addLastStepFollowUp = false;
+    addNextStepFollowUp = false;
+    addGetIngredientsFollowUp = false;
 }
 /**
  * Handling incoming messages at /hook +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -104,7 +112,10 @@ restService.post('/hook', function (req, res) {
                             speech += '. Should I repeat it?';
                             break;
                         case 'repeatIngredients':
-                            speech = 'Okay. Listen. ' + getIngredientsAsString();
+                            addGetIngredientsFollowUp = true;
+                            break;
+                        case 'notRepeatIngredients':
+                            addCurrentStepFollowUp = true;
                             break;
                         case 'nextStep':
                             speech = getNextStep();
@@ -134,9 +145,42 @@ restService.post('/hook', function (req, res) {
          * followupEvent: Event name and optional parameters sent from the web service to API.AI.
          * example: {"followupEvent":{"name":"<event_name>","data":{"<parameter_name>":"<parameter_value>"}}}
          */
+        // Invoke Goodbye
         if (addGoodByeFollowUp) {
             return res.json({
                 followupEvent: {name: 'goodBye'},
+                source: 'babsi-webhook'
+            });
+        }
+        //Invoke Current step
+        else if (addCurrentStepFollowUp) {
+            addCurrentStepFollowUp = false;
+            return res.json({
+                followupEvent: {name: 'currentStep'},
+                source: 'babsi-webhook'
+            });
+        }
+        //Invoke Next Step
+        else if (addNextStepFollowUp) {
+            addNextStepFollowUp = false;
+            return res.json({
+                followupEvent: {name: 'nextStep'},
+                source: 'babsi-webhook'
+            });
+        }
+        //Invoke Last Step
+        else if (addLastStepFollowUp) {
+            addLastStepFollowUp = false;
+            return res.json({
+                followupEvent: {name: 'lastStep'},
+                source: 'babsi-webhook'
+            });
+        }
+        //Invoke Get Ingredients
+        else if (addGetIngredientsFollowUp) {
+            addGetIngredientsFollowUp = false;
+            return res.json({
+                followupEvent: {name: 'getIngredients'},
                 source: 'babsi-webhook'
             });
         }
