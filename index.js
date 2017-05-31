@@ -42,23 +42,29 @@ var chocolateBrownies = {
 };
 /* States */
 var currentStep = 0;
-function getNextStep() {
-    var nextStep = currentStep + 1;
-    if (nextStep < chocolateBrownies.steps.length) {
-        currentStep++;
-        return chocolateBrownies.steps[nextStep]
-    }
-}
+
 function getCurrentStep() {
     return chocolateBrownies.steps[currentStep];
 }
+
+function getNextStep() {
+    var nextStep = currentStep + 1;
+    if (nextStep < chocolateBrownies.steps.length) {
+        currentStep = nextStep;
+        return chocolateBrownies.steps[nextStep]
+    }
+    return 'No! That´s it. Finished.';
+}
+
 function getLastStep() {
     var lastStep = currentStep - 1;
     if (lastStep >= 0) {
-        currentStep--;
+        currentStep = lastStep;
         return chocolateBrownies.steps[lastStep]
     }
+    return 'You´re already at the first step.'
 }
+
 function getIngredientsAsString() {
     var ingredientString = '';
     chocolateBrownies.ingredients.forEach(function (ingredient) {
