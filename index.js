@@ -63,7 +63,7 @@ function getLastStep() {
 function getIngredientsAsString() {
     var ingredientString = '';
     currentRecipe.ingredients.forEach(function (ingredient) {
-        ingredientString += ingredient + ', ';
+        ingredientString += ingredient.amount + ' ' + ingredient.name + ', ';
     });
     return ingredientString;
 }
@@ -103,6 +103,9 @@ restService.post('/hook', function (req, res) {
                             break;
                         case 'currentStep':
                             speech = getCurrentStep();
+                            break;
+                        case 'firstStep':
+                            speech += currentRecipe.steps[0];
                             break;
                     }
                 }
