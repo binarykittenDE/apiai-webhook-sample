@@ -74,17 +74,22 @@ restService.post('/hook', function (req, res) {
 
             if (requestBody.result) {
                 speech = '';
-
+                //If there was already text given, add it again
                 if (requestBody.result.fulfillment) {
                     speech += requestBody.result.fulfillment.speech;
                     speech += ' ';
-                    speech += chocolateBrownies.name;
                 }
-
-                //If an action was invoked in api.ai
+                //Action distinction
                 if (requestBody.result.action) {
-                    speech += 'action: ' + requestBody.result.action;
-                    speech += ' ' + chocolateBrownies.name;
+                    switch (requestBody.result.action) {
+                        case 'chooseRecipe':
+                            speech += 'Zutat 1, Zutat 2, Zutat 3';
+                            speech += '. Should I repeat it?';
+                            break;
+                        case 'repeatIngredients':
+                            speech = 'Okay. Listen. Zutat 1, Zutat 2, Zutat 3.';
+                            break;
+                    }
                 }
             }
         }
