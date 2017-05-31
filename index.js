@@ -43,7 +43,7 @@ var chocolateBrownies = {
 /* States */
 var currentStep = 0;
 function getNextStep() {
-    var nextStep = currentStep++;
+    var nextStep = currentStep + 1;
     if (nextStep < chocolateBrownies.steps.length) {
         currentStep++;
         return chocolateBrownies.steps[nextStep]
@@ -53,7 +53,7 @@ function getCurrentStep() {
     return chocolateBrownies.steps[currentStep];
 }
 function getLastStep() {
-    var lastStep = currentStep--;
+    var lastStep = currentStep - 1;
     if (lastStep >= 0) {
         currentStep--;
         return chocolateBrownies.steps[lastStep]
