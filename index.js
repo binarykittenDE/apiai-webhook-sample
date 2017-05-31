@@ -22,7 +22,7 @@ var walnuts = {name: 'walnuts', amount: '200 gram'};
 var ingredients = [oil, chocolate, flour, cocoaPowder, sugar, seaSalt, vanillaPod, veganMilk, walnuts];
 
 var step1 = 'So first preheat the oven to 180 degrees and cover an oven tray with baking paper.';
-var step2 = 'The next step would be to heat up 150 gram of chocolate until its compvarely melted. You can do this' +
+var step2 = 'The next step would be to heat up 150 gram of chocolate until its completely melted. You can do this' +
     ' with an microwave or a waterbath.';
 var step3 = 'Sieve the 170 gram flour and 5 teaspoons cocoa powder into a large bowl.';
 var step4 = 'Add the 180 gram of sugar and a pinch of the sea salt.';
@@ -33,14 +33,15 @@ var step7 = 'Roughly chop the remaining 50 gram of chocolate and 150 gram of wal
 var step8 = 'Wow, we nearly finished! Pour the mixture into the prepared oven tray and spread it out evenly.' +
     ' Sprinkle over the remaining walnuts and place this beauty in the hot oven! I´ll remind you in 20 minutes.';
 var steps = [step1, step2, step3, step4, step5, step6, step7, step8];
-//recipe
+/* Recipe */
 var chocolateBrownies = {
     name: 'chocolate brownies',
     ingredients: ingredients,
     steps: steps,
     timerTime: 20
 };
-//counter
+/* States */
+var currentRecipe = {};
 var currentStep = 0;
 function getNextStep() {
     var nextStep = currentStep++;
@@ -59,13 +60,17 @@ function getLastStep() {
         return chocolateBrownies.steps[lastStep]
     }
 }
+function getIngredientsAsString() {
+    var ingredientString = '';
+    currentRecipe.ingredients.forEach(function (ingredient) {
+        ingredientString += ingredient + ', ';
+    });
+    return ingredientString;
+}
 /**
  * Handling incoming messages at /hook +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  */
 restService.post('/hook', function (req, res) {
-
-    console.log('hook request');
-
     try {
         var speech = 'empty speech';
 
@@ -83,18 +88,26 @@ restService.post('/hook', function (req, res) {
                 if (requestBody.result.action) {
                     switch (requestBody.result.action) {
                         case 'chooseRecipe':
-                            speech += 'Zutat 1, Zutat 2, Zutat 3';
+                            currentRecipe = chocolateBrownies;
+                            speech += getIngredientsAsString();
                             speech += '. Should I repeat it?';
                             break;
                         case 'repeatIngredients':
-                            speech = 'Okay. Listen. Zutat 1, Zutat 2, Zutat 3.';
+                            speech = 'Okay. Listen. ' + getIngredientsAsString();
+                            break;
+                        case 'nextStep':
+                            speech = getNextStep();
+                            break;
+                        case 'lastStep':
+                            speech = getLastStep();
+                            break;
+                        case 'currentStep':
+                            speech = getCurrentStep();
                             break;
                     }
                 }
             }
         }
-
-        console.log('result: ', speech);
 
         /* Returned value */
         /*
