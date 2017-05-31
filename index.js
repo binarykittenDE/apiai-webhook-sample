@@ -112,8 +112,8 @@ restService.post('/hook', function (req, res) {
                             speech += '. Should I repeat it?';
                             break;
                         case 'repeatIngredients':
-                            speech += getIngredientsAsString() + '. Got it now? Asl me to tell you the' +
-                                ' ingredients if not, or ask for the first step to start.';
+                            speech += getIngredientsAsString() + '. Got it? Ask me to tell you the' +
+                                ' ingredients again if not, or ask for the current step.';
                             break;
                         case 'notRepeatIngredients':
                             speech += 'Awesome. So let us start. ' + getCurrentStep();
