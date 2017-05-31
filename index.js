@@ -74,6 +74,11 @@ function getIngredientsAsString() {
     });
     return ingredientString;
 }
+
+function resetData() {
+    currentStep = 0;
+    addGoodByeFollowUp = false;
+}
 /**
  * Handling incoming messages at /hook +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  */
@@ -112,6 +117,9 @@ restService.post('/hook', function (req, res) {
                             break;
                         case 'firstStep':
                             speech += chocolateBrownies.steps[0];
+                            break;
+                        case 'resetData':
+                            resetData();
                             break;
                     }
                 }
