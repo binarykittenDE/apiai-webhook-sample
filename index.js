@@ -158,7 +158,9 @@ restService.post('/hook', function (request, result) {
                 speech: speech,
                 displayText: speech,
                 data: {
-                    expect_user_response: false
+                    google: {
+                        expect_user_response: false
+                    }
                 },
                 source: 'babsi-webhook'
             });
