@@ -154,6 +154,7 @@ restService.post('/hook', function (request, result) {
             });
         }
         if (addExpectUserResponseFalse) {
+            addExpectUserResponseFalse = false;
             return result.json({
                 speech: speech,
                 displayText: speech,
@@ -174,7 +175,6 @@ restService.post('/hook', function (request, result) {
         }
     } catch (err) {
         console.error("Can't process request", err);
-
         return result.status(400).json({
             status: {
                 code: 400,
