@@ -144,6 +144,7 @@ restService.post('/hook', function (request, result) {
                             break;
                         case 'howDoesMethodWork':
                             speech = getMethodExplanation('waterbath');
+                            addExpectUserResponseFalse = true;
                             break;
                     }
                 }
