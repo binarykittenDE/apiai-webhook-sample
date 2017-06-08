@@ -8,6 +8,14 @@ const restService = express();
 restService.use(bodyParser.json());
 
 /**
+ * Methods ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ */
+var METHODS = [
+    {name : 'waterbath', explanation: 'For a waterbath place a heatproof bowl over a span of simmering water. Make' +
+    ' sure the base does not touch the water. Break the chocolate into the bowl and allow it to melt!'}
+];
+
+/**
  * Example Recipe ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  */
 var oil = {name: 'oil', amount: '5 tablespoons'};
@@ -25,10 +33,9 @@ var step1 = 'So first preheat the oven to 180 degrees and cover an oven tray wit
 var step2 = 'The next step would be to heat up 150 gram of chocolate until its completely melted. You can do this' +
     ' with an microwave or a waterbath.';
 var step3 = 'Sieve the 170 gram flour and 5 teaspoons cocoa powder into a large bowl.';
-var step4 = 'Add the 180 gram of sugar and a pinch of the sea salt.';
+var step4 = 'Add the 180 gram of sugar and the pinch of sea salt.';
 var step5 = 'Halve the vanilla pod lengthways, scrape out the seeds and add them to the bowl.';
-var step6 = 'Stir in the 5 tablespoons oil, the 230 milliliters vegan milk and the melted chocolate until' +
-    ' everything' +
+var step6 = 'Stir in the 5 tablespoons oil, the 230 milliliters vegan milk and the melted chocolate until everything' +
     ' is combined nicely.';
 var step7 = 'Roughly chop the remaining 50 gram of chocolate and 150 gram of walnuts, and stir it in!';
 var step8 = 'Wow, we nearly finished! Pour the mixture into the prepared oven tray and spread it out evenly.' +
@@ -80,6 +87,13 @@ function resetData() {
     currentStep = 0;
     addGoodByeFollowUp = false;
 }
+
+function getMethodExplanation(methodName){
+    var method = METHODS.find(function (method) {
+        return method.name = methodName;
+    });
+    return method.explanation;
+}
 /**
  * Handling incoming messages at /hook +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  */
@@ -107,16 +121,11 @@ restService.post('/hook', function (request, result) {
                         case 'repeatIngredients':
                             speech += getIngredientsAsString() + '. Got it? Ask me to tell you the' +
                                 ' ingredients again if not, or ask for the current step.';
+                            //what is the current step? - you are already at the current step
                             break;
                         case 'notRepeatIngredients':
                             speech += 'Awesome. So let us start. ' + getCurrentStep();
                             addExpectUserResponseFalse = true;
-                            // under fulfillment include
-                            // data: {
-                            //     google: {
-                            //         expect_user_response: false,
-                            //     }
-                            // }
                             break;
                         case 'nextStep':
                             speech = getNextStep();
@@ -132,6 +141,9 @@ restService.post('/hook', function (request, result) {
                             break;
                         case 'resetData':
                             resetData();
+                            break;
+                        case 'howDoesMethodWork':
+                            speech = getMethodExplanation('waterbath');
                             break;
                     }
                 }
