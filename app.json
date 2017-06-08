@@ -1,7 +1,7 @@
 {
-  "name": "API.AI webhook demonstration",
-  "description": "API.AI webhook demonstration",
-  "repository": "https://github.com/api-ai/apiai-webhook-sample",
-  "logo": "http://xvir.github.io/img/apiai.png",
-  "keywords": ["api.ai", "natural language"]
+  "name": "bonnie baker webhook",
+  "description": "This is the webhook for the personal baking assistant called Bonnie Baker.",
+  "repository": "https://github.com/binarykittenDE/babsi-webhook",
+  "logo": "https://drive.google.com/file/d/0ByNkMk-NW5VibHFzbmFCZDZ4WUE/view?usp=sharing",
+  "keywords": ["api.ai", "natural language", "baking", "assistant", "bonnie baker", "webhook"]
 }
