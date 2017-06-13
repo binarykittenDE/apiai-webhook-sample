@@ -39,7 +39,8 @@ var step6 = 'Stir in the 5 tablespoons oil, the 230 milliliters vegan milk and t
     ' is combined nicely.';
 var step7 = 'Roughly chop the remaining 50 gram of chocolate and 150 gram of walnuts, and stir it in!';
 var step8 = 'Wow, we nearly finished! Pour the mixture into the prepared oven tray and spread it out evenly.' +
-    ' Sprinkle over the remaining walnuts and place this beauty in the hot oven! I´ll remind you in 20 minutes.';
+    ' Sprinkle over the remaining 50 gram walnuts and place this beauty in the hot oven! I´ll remind you in 20' +
+    ' minutes.';
 var steps = [step1, step2, step3, step4, step5, step6, step7, step8];
 /* Recipe */
 var chocolateBrownies = {
