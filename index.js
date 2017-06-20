@@ -11,8 +11,10 @@ restService.use(bodyParser.json());
  * Methods ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  */
 var METHODS = [
-    {name : 'waterbath', explanation: 'For a waterbath place a heatproof bowl over a span of simmering water. Make' +
-    ' sure the base does not touch the water. Break the chocolate into the bowl and allow it to melt!'}
+    {
+        name: 'waterbath', explanation: 'For a waterbath place a heatproof bowl over a span of simmering water. Make' +
+    ' sure the base does not touch the water. Break the chocolate into the bowl and allow it to melt!'
+    }
 ];
 
 /**
@@ -89,11 +91,18 @@ function resetData() {
     addGoodByeFollowUp = false;
 }
 
-function getMethodExplanation(methodName){
+function getMethodExplanation(methodName) {
     var method = METHODS.find(function (method) {
         return method.name = methodName;
     });
     return method.explanation;
+}
+
+function getIngredientAmount(ingredientName) {
+    var ingredient = chocolateBrownies.ingredients.find(function (ingredient) {
+        return ingredient.name.toLocaleLowerCase() === ingredientName.toLocaleLowerCase() || ingredient.name.toLocaleLowerCase().includes(ingredientName.toLocaleLowerCase())
+    });
+    return ingredient.amount;
 }
 /**
  * Handling incoming messages at /hook +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -147,6 +156,8 @@ restService.post('/hook', function (request, result) {
                             speech = getMethodExplanation('waterbath');
                             addExpectUserResponseFalse = true;
                             break;
+                        case 'ingredientAmount':
+                            speech = getIngredientAmount(requestBody.result.parameters.ingredients);
                     }
                 }
             }
