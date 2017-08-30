@@ -75,7 +75,7 @@ function getLastStep() {
         currentStep = lastStep;
         return chocolateBrownies.steps[lastStep];
     }
-    return 'You´re already at the first step.'
+    return 'You´re already at the first step. Ask for the current step.'
 }
 
 function getIngredientsAsString() {
